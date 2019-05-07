@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="TButton">
+        <attr name="dim" format="dimension"/>
+    </declare-styleable>
+</resources>

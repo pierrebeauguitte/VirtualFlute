@@ -186,6 +186,19 @@ class Tune {
                 this._id, this.setting, this.name, this.score * 100);
     }
 
+    public int get_id(){
+        return this._id;
+    }
+    public int getSetting(){
+        return this.setting;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public float getScore(){
+        return this.score;
+    }
+
     public void getSubED(String pattern) {
         int pLength = pattern.length();
         int tLength = this.key.length();

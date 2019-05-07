@@ -2,19 +2,20 @@ package com.dit.pierre.virtualflute;
 
 import android.content.Intent;
 import android.media.SoundPool;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
-    private TButton holes[] = new TButton[6];
+public class Test extends AppCompatActivity {
+    private TestButton holes[] = new TestButton[6];
     private int sum;
     private SoundPool spool;
     private int streamId;
@@ -30,30 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> queryTimestamp;
     private boolean recording;
     private boolean monitor;
-
-    private View.OnTouchListener tlisten = new View.OnTouchListener() {
-        public boolean onTouch(View view, MotionEvent event) {
-            TButton tb = (TButton) view;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (!tb.pressed) {
-                        tb.pressed = true;
-                        sum += tb.getFingerValue();
-                        ((TextView) findViewById(R.id.textView)).setText("[" + sum + "]");
-                        checksum();
-                    }
-                    return true;
-                case MotionEvent.ACTION_UP:
-                    tb.pressed = false;
-                    sum -= tb.getFingerValue();
-                    ((TextView) findViewById(R.id.textView)).setText("[" + sum + "]");
-                    checksum();
-                    return true;
-            }
-
-            return true;
-        }
-    };
+    private static char[] notesStr = {'D', 'E', 'F', 'G', 'A', 'B', 'C', 'C', 'D'};
 
     protected void checksum() {
         if (fingerings[sum] == 0 || !monitor)
@@ -68,19 +46,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private View.OnTouchListener tlisten = new View.OnTouchListener() {
+        public boolean onTouch(View view, MotionEvent event) {
+            TestButton tb = (TestButton) view;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!tb.pressed) {
+                        tb.pressed = true;
+                        sum += tb.getFingerValue();
+                        if (fingerings[sum] > 0)
+                            pc.setText("" + notesStr[fingerings[sum]-1]);
+                        checksum();
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    tb.pressed = false;
+                    sum -= tb.getFingerValue();
+                    if (fingerings[sum]>0)
+                        pc.setText("" + notesStr[fingerings[sum]-1]);
+                    checksum();
+                    return true;
+            }
+
+
+            return true;
+        }
+    };
+
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.test);
         //hide the title bar
         getSupportActionBar().hide();
+        //hide status bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
-        holes[0] = findViewById(R.id.button1);
-        holes[1] = findViewById(R.id.button2);
-        holes[2] = findViewById(R.id.button3);
-        holes[3] = findViewById(R.id.button4);
-        holes[4] = findViewById(R.id.button5);
-        holes[5] = findViewById(R.id.button6);
+
+        holes[0] = findViewById(R.id.test_bt1);
+        holes[1] = findViewById(R.id.test_bt2);
+        holes[2] = findViewById(R.id.test_bt3);
+        holes[3] = findViewById(R.id.test_bt4);
+        holes[4] = findViewById(R.id.test_bt5);
+        holes[5] = findViewById(R.id.test_bt6);
+
         for (int i=0; i<6; i++) {
             holes[i].setOnTouchListener(tlisten);
             int val = 1;
@@ -116,17 +126,8 @@ public class MainActivity extends AppCompatActivity {
         recording = false;
         monitor = true;
 
-        // Mute button
-        View b = findViewById(R.id.stopSound);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spool.stop(streamId);
-            }
-        });
-
         // progress bar
-        mProgressBar=findViewById(R.id.progressBar);
+        mProgressBar=findViewById(R.id.test_progressBar);
         mProgressBar.setProgress(progress);
         mCountDownTimer=new CountDownTimer(12000,100) {
             @Override
@@ -145,19 +146,17 @@ public class MainActivity extends AppCompatActivity {
                 sendQuery();
             }
         };
-
-        pc = findViewById(R.id.countdown);
-        pc.setText("Start");
+        pc = findViewById(R.id.test_header_tv);
         preCount = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                pc.setText("[" + countdown + "]");
+                pc.setText("" + countdown);
                 countdown--;
             }
 
             @Override
             public void onFinish() {
-                pc.setText("[" + countdown + "]");
+                pc.setText("");
                 mCountDownTimer.start();
                 recording = true;
                 checksum();
@@ -172,7 +171,10 @@ public class MainActivity extends AppCompatActivity {
         });
         queryPitch = new ArrayList<>();
         queryTimestamp = new ArrayList<>();
+
+        preCount.start();
     }
+
 
     @Override
     protected void onResume() {
@@ -194,9 +196,8 @@ public class MainActivity extends AppCompatActivity {
         spool.stop(streamId);
         monitor = false;
     }
-
     public void sendQuery() {
-        Intent intent = new Intent(this, ProcessQuery.class);
+        Intent intent = new Intent(this, TestSearch.class);
         intent.putExtra("tuneQueryPitch", queryPitch);
         intent.putExtra("tuneQueryTimestamp", queryTimestamp);
         startActivity(intent);
