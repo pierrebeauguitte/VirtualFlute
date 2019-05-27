@@ -7,21 +7,40 @@
     tools:context="com.dit.pierre.virtualflute.Intro"
     >
 
-    <ImageButton
-        android:id="@+id/bt_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/record" />
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap to Start"
+        android:layout_marginBottom="20dp"
+        android:text="Virtual Flute"
+        android:textStyle="italic"
         android:textSize="100px"
-        android:layout_above="@+id/bt_record"
+        android:layout_above="@+id/bt_search"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/bt_search"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="200dp"
+        android:text="Search"
+        android:textSize="20dp"/>
+
+
+    <Button
+        android:id="@+id/bt_play"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/bt_search"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="20dp"
+        android:text="Play"
+        android:textSize="20dp"
+        />
 
 
 </RelativeLayout>

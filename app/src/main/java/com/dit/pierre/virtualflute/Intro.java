@@ -17,11 +17,19 @@ public class Intro extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        ImageButton btRecord = (ImageButton) findViewById(R.id.bt_record);
-        btRecord.setOnClickListener(new View.OnClickListener(){
+        Button btSearch = (Button) findViewById(R.id.bt_search);
+        btSearch.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent myIntent = new Intent(view.getContext(), Test.class);
                 startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button btPlay = (Button) findViewById(R.id.bt_play);
+        btPlay.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent myIntent = new Intent(view.getContext(), Play.class);
+                startActivityForResult(myIntent,0);
             }
         });
 

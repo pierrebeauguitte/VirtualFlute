@@ -39,6 +39,13 @@
                 android:value="com.dit.pierre.virtualflute.Intro" />
         </activity>
 
+        <activity android:name="com.dit.pierre.virtualflute.Play"
+            android:parentActivityName="com.dit.pierre.virtualflute.Intro">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dit.pierre.virtualflute.Intro" />
+        </activity>
+
         <activity android:name="com.dit.pierre.virtualflute.TestSearch"
             android:parentActivityName="com.dit.pierre.virtualflute.Test">
             <meta-data
