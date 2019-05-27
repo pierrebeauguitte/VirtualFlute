@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Test extends AppCompatActivity {
+    private static char[] notesStr = {'D', 'E', 'F', 'G', 'A', 'B', 'C', 'C', 'D'};
     private TestButton holes[] = new TestButton[6];
     private int sum;
     private SoundPool spool;
@@ -31,7 +32,33 @@ public class Test extends AppCompatActivity {
     private ArrayList<Integer> queryTimestamp;
     private boolean recording;
     private boolean monitor;
-    private static char[] notesStr = {'D', 'E', 'F', 'G', 'A', 'B', 'C', 'C', 'D'};
+
+    private View.OnTouchListener tlisten = new View.OnTouchListener() {
+        public boolean onTouch(View view, MotionEvent event) {
+            TestButton tb = (TestButton) view;
+            if(monitor) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (!tb.pressed) {
+                            tb.pressed = true;
+                            sum += tb.getFingerValue();
+                            if (fingerings[sum] > 0)
+                                pc.setText("" + notesStr[fingerings[sum] - 1]);
+                            checksum();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        tb.pressed = false;
+                        sum -= tb.getFingerValue();
+                        if (fingerings[sum] > 0)
+                            pc.setText("" + notesStr[fingerings[sum] - 1]);
+                        checksum();
+                        return true;
+                }
+            }
+            return true;
+        }
+    };
 
     protected void checksum() {
         if (fingerings[sum] == 0 || !monitor)
@@ -45,33 +72,6 @@ public class Test extends AppCompatActivity {
             queryTimestamp.add((int) System.currentTimeMillis());
         }
     }
-
-    private View.OnTouchListener tlisten = new View.OnTouchListener() {
-        public boolean onTouch(View view, MotionEvent event) {
-            TestButton tb = (TestButton) view;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (!tb.pressed) {
-                        tb.pressed = true;
-                        sum += tb.getFingerValue();
-                        if (fingerings[sum] > 0)
-                            pc.setText("" + notesStr[fingerings[sum]-1]);
-                        checksum();
-                    }
-                    return true;
-                case MotionEvent.ACTION_UP:
-                    tb.pressed = false;
-                    sum -= tb.getFingerValue();
-                    if (fingerings[sum]>0)
-                        pc.setText("" + notesStr[fingerings[sum]-1]);
-                    checksum();
-                    return true;
-            }
-
-
-            return true;
-        }
-    };
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +124,7 @@ public class Test extends AppCompatActivity {
         fingerings[62] = 9; // 8 + 1
 
         recording = false;
-        monitor = true;
+        monitor = false;
 
         // progress bar
         mProgressBar=findViewById(R.id.test_progressBar);
@@ -159,16 +159,11 @@ public class Test extends AppCompatActivity {
                 pc.setText("");
                 mCountDownTimer.start();
                 recording = true;
+                monitor = true;
                 checksum();
+                pc.setText("C");
             }
         };
-
-        pc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                preCount.start();
-            }
-        });
         queryPitch = new ArrayList<>();
         queryTimestamp = new ArrayList<>();
 
@@ -187,7 +182,7 @@ public class Test extends AppCompatActivity {
         queryPitch.clear();
         queryTimestamp.clear();
         recording = false;
-        monitor = true;
+        monitor = false;
     }
 
     @Override
