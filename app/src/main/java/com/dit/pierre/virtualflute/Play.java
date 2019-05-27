@@ -31,23 +31,25 @@ public class Play extends AppCompatActivity {
     private View.OnTouchListener tlisten = new View.OnTouchListener() {
         public boolean onTouch(View view, MotionEvent event) {
             TestButton tb = (TestButton) view;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (!tb.pressed) {
-                        tb.pressed = true;
-                        sum += tb.getFingerValue();
-                        if (fingerings[sum] > 0)
-                            tv_header.setText("" + notesStr[fingerings[sum]-1]);
+            if(monitor) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (!tb.pressed) {
+                            tb.pressed = true;
+                            sum += tb.getFingerValue();
+//                            if (fingerings[sum] > 0)
+//                                tv_header.setText("" + notesStr[fingerings[sum] - 1]);
+                            checksum();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        tb.pressed = false;
+                        sum -= tb.getFingerValue();
+//                        if (fingerings[sum] > 0)
+//                            tv_header.setText("" + notesStr[fingerings[sum] - 1]);
                         checksum();
-                    }
-                    return true;
-                case MotionEvent.ACTION_UP:
-                    tb.pressed = false;
-                    sum -= tb.getFingerValue();
-                    if (fingerings[sum]>0)
-                        tv_header.setText("" + notesStr[fingerings[sum]-1]);
-                    checksum();
-                    return true;
+                        return true;
+                }
             }
             return true;
         }
@@ -114,8 +116,16 @@ public class Play extends AppCompatActivity {
     }
 
     protected void start(){
-        monitor = true;
-        tv_header.setText("");
-        checksum();
+        if(monitor == true){
+            monitor = false;
+            tv_header.setText("Start");
+            spool.stop(streamId);
+            return;
+        }
+        else {
+            monitor = true;
+            tv_header.setText("Pause");
+            checksum();
+        }
     }
 }
