@@ -25,6 +25,7 @@ public class TestResult extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_result);
+        getSupportActionBar().hide();
         lvResult = findViewById(R.id.lvResult);
 
         Intent intent = getIntent();
@@ -37,8 +38,8 @@ public class TestResult extends AppCompatActivity {
         //Get the "toString() of Tone, put them to array for ListView
         for(int i = 0; i < _id.length; i++){
             String temp = String.format(Locale.ENGLISH,
-                    "[%d_%d] %s - %.2f",
-                    _id[i], setting[i], name[i], score[i]* 100);
+                    "%s - %.2f",
+                    name[i], score[i]* 100);
             results.add(temp);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, results);
@@ -55,12 +56,12 @@ public class TestResult extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+    public void onBackPressed() {
+        Intent intent = new Intent(TestResult.this,
+                Intro.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
 
-    @Override
-    protected  void onPause(){
-        super.onPause();
     }
 }

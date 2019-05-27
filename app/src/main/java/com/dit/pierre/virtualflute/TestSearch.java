@@ -21,6 +21,7 @@ public class TestSearch extends AppCompatActivity {
     private CorpusManager cm;
     private static int corpusSize;
     private static String query;
+    private boolean isActive;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class TestSearch extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<Integer> pitch = intent.getIntegerArrayListExtra("tuneQueryPitch");
         ArrayList<Integer> ts = intent.getIntegerArrayListExtra("tuneQueryTimestamp");
+
+        isActive = true;
 
         float quaver = fuzzyHist(ts);
         System.out.println("Quaver duration : " + quaver);
@@ -61,6 +64,17 @@ public class TestSearch extends AppCompatActivity {
         this.performSearch();
     }
 
+    @Override
+    public void onBackPressed() {
+        isActive = false;
+        Intent intent = new Intent(TestSearch.this,
+                Intro.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+
+    }
+
     //Get the result form onPostExecute, pass the result details to next activity
     public void returnThreadResult(List<Tune> result){
         int[] _id = new int[result.size()];
@@ -80,13 +94,16 @@ public class TestSearch extends AppCompatActivity {
         intent.putExtra("setting", setting);
         intent.putExtra("name", name);
         intent.putExtra("score", score);
-        startActivity(intent);
+        if(isActive)
+            startActivity(intent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         cm.close();
+        isActive = false;
+        finish();
     }
 
     @Override
@@ -131,17 +148,6 @@ public class TestSearch extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Tune> cumulResults) {
-//            TextView textView = findViewById(R.id.tvNotes);
-
-//            StringBuilder result = new StringBuilder("");
-//            for (Tune t : cumulResults) {
-//                System.out.println(t);
-//                result.append(t.toString() + "\n");
-//            }
-//            System.out.println("Received result " + result.toString());
-//            textView.setText(result.toString());
-
-            //Return results to main class
             this.testSearch.returnThreadResult(cumulResults);
         }
     }

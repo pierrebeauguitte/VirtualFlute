@@ -129,7 +129,7 @@ public class Test extends AppCompatActivity {
         // progress bar
         mProgressBar=findViewById(R.id.test_progressBar);
         mProgressBar.setProgress(progress);
-        mCountDownTimer=new CountDownTimer(12000,100) {
+        mCountDownTimer=new CountDownTimer(5000,100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 progress++;
@@ -142,7 +142,6 @@ public class Test extends AppCompatActivity {
                 mProgressBar.setProgress(100);
                 recording = false;
                 spool.stop(streamId);
-                monitor = false;
                 sendQuery();
             }
         };
@@ -170,31 +169,36 @@ public class Test extends AppCompatActivity {
         preCount.start();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onPause();
+        Intent intent = new Intent(Test.this,
+                Intro.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        pc.setText("Start");
-        countdown = 3;
-        progress = 0;
-        sum = 0;
-        mProgressBar.setProgress(0);
-        queryPitch.clear();
-        queryTimestamp.clear();
-        recording = false;
-        monitor = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        spool.stop(streamId);
         monitor = false;
+        recording = false;
+        finish();
     }
     public void sendQuery() {
+        if(!monitor && !recording)
+            return;
         Intent intent = new Intent(this, TestSearch.class);
         intent.putExtra("tuneQueryPitch", queryPitch);
         intent.putExtra("tuneQueryTimestamp", queryTimestamp);
         startActivity(intent);
+
     }
 }
