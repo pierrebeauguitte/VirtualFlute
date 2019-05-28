@@ -28,8 +28,12 @@ public class TestSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //hide the title bar
         getSupportActionBar().hide();
+        //hide status bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_test_search);
-//        TextView tvNotes = (TextView) findViewById(R.id.tvNotes);
 
         progressBar = (ProgressBar)findViewById(R.id.searchProgressBar);
         progressBar.setMax(100);

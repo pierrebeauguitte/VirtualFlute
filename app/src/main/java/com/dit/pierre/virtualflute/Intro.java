@@ -47,7 +47,7 @@ public class Intro extends AppCompatActivity {
         pulseBtPlay.start();
     }
 
-    //adapted from https://stackoverflow.com/questions/27301586/repeat-pulse-animation
+    //adopted from https://stackoverflow.com/questions/17926117/objectanimator-with-scale-property-makes-bg-black
     protected ObjectAnimator createPulse(Button button){
         ObjectAnimator pulseButton = ObjectAnimator.ofPropertyValuesHolder(
                 button,

@@ -26,7 +26,12 @@ public class TestResult extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_result);
+        //hide the title bar
         getSupportActionBar().hide();
+        //hide status bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
         LinearLayout layout = (LinearLayout)findViewById(R.id.result_linear_layout);
         //make background transparent

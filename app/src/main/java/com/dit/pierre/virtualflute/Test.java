@@ -90,7 +90,6 @@ public class Test extends AppCompatActivity {
         holes[3] = findViewById(R.id.test_bt4);
         holes[4] = findViewById(R.id.test_bt5);
         holes[5] = findViewById(R.id.test_bt6);
-
         for (int i=0; i<6; i++) {
             holes[i].setOnTouchListener(tlisten);
             int val = 1;
