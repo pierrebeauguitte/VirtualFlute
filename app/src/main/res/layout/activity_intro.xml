@@ -13,7 +13,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:text="Virtual Flute"
         android:textStyle="italic"
         android:textSize="100px"
@@ -27,7 +27,9 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="200dp"
         android:text="Search"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:background="@drawable/rounded_corner_button"
+        />
 
 
     <Button
@@ -37,9 +39,10 @@
         android:layout_centerInParent="true"
         android:layout_below="@+id/bt_search"
         android:layout_marginLeft="200dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="Play"
         android:textSize="20dp"
+        android:background="@drawable/rounded_corner_button"
         />
 
 

@@ -1,15 +1,14 @@
 package com.dit.pierre.virtualflute;
 
-import android.app.ActionBar;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 public class Intro extends AppCompatActivity {
 
@@ -17,6 +16,14 @@ public class Intro extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        //hide the title bar
+        getSupportActionBar().hide();
+        //hide status bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         Button btSearch = (Button) findViewById(R.id.bt_search);
         btSearch.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -24,6 +31,9 @@ public class Intro extends AppCompatActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
+
+        ObjectAnimator pulseBtSearch = createPulse(btSearch);
+        pulseBtSearch.start();
 
         Button btPlay = (Button) findViewById(R.id.bt_play);
         btPlay.setOnClickListener(new View.OnClickListener(){
@@ -33,12 +43,18 @@ public class Intro extends AppCompatActivity {
             }
         });
 
-        //hide the title bar
-        getSupportActionBar().hide();
-        //hide status bar
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        ObjectAnimator pulseBtPlay = createPulse(btPlay);
+        pulseBtPlay.start();
+    }
 
+    protected ObjectAnimator createPulse(Button button){
+        ObjectAnimator pulseButton = ObjectAnimator.ofPropertyValuesHolder(
+                button,
+                PropertyValuesHolder.ofFloat("scaleX", 1.05f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.05f));
+        pulseButton.setDuration(900);
+        pulseButton.setRepeatCount(ObjectAnimator.INFINITE);
+        pulseButton.setRepeatMode(ObjectAnimator.REVERSE);
+        return pulseButton;
     }
 }
