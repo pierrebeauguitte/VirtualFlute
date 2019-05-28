@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,11 @@ public class TestResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_result);
         getSupportActionBar().hide();
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.result_linear_layout);
+        //make background transparent
+        layout.getBackground().setAlpha(30);
+
         lvResult = findViewById(R.id.lvResult);
 
         Intent intent = getIntent();
@@ -39,7 +45,7 @@ public class TestResult extends AppCompatActivity {
         for(int i = 0; i < _id.length; i++){
             String temp = String.format(Locale.ENGLISH,
                     "%s - %.2f",
-                    name[i], score[i]* 100);
+                    name[i], score[i]* 100) + "%";
             results.add(temp);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, results);
