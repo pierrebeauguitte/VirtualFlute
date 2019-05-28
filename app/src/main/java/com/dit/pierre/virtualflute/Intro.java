@@ -47,6 +47,7 @@ public class Intro extends AppCompatActivity {
         pulseBtPlay.start();
     }
 
+    //adapted from https://stackoverflow.com/questions/27301586/repeat-pulse-animation
     protected ObjectAnimator createPulse(Button button){
         ObjectAnimator pulseButton = ObjectAnimator.ofPropertyValuesHolder(
                 button,

@@ -129,7 +129,7 @@ public class Test extends AppCompatActivity {
         // progress bar
         mProgressBar=findViewById(R.id.test_progressBar);
         mProgressBar.setProgress(progress);
-        mCountDownTimer=new CountDownTimer(5000,100) {
+        mCountDownTimer=new CountDownTimer(12000,100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 progress++;
