@@ -39,7 +39,7 @@ public class Test extends AppCompatActivity {
     private View.OnTouchListener tlisten = new View.OnTouchListener() {
         public boolean onTouch(View view, MotionEvent event) {
             TestButton tb = (TestButton) view;
-            if(monitor) {
+            if (monitor) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!tb.pressed) {
@@ -54,6 +54,10 @@ public class Test extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         tb.pressed = false;
                         sum -= tb.getFingerValue();
+                        if (sum < 0) {
+                            sum = 0;
+                            return true;
+                        }
                         if (fingerings[sum] > 0)
                             pc.setText("" + notesStr[fingerings[sum] - 1]);
                         checksum();
@@ -95,10 +99,10 @@ public class Test extends AppCompatActivity {
         holes[3] = findViewById(R.id.test_bt4);
         holes[4] = findViewById(R.id.test_bt5);
         holes[5] = findViewById(R.id.test_bt6);
-        for (int i=0; i<6; i++) {
+        for (int i = 0; i < 6; i++) {
             holes[i].setOnTouchListener(tlisten);
             int val = 1;
-            for (int j=0; j<i; j++)
+            for (int j = 0; j < i; j++)
                 val *= 2;
             holes[i].setFingerValue(val);
         }
@@ -120,24 +124,24 @@ public class Test extends AppCompatActivity {
         fingerings[63] = 1; // 0 + 1
         fingerings[31] = 2; // 1 + 1
         fingerings[15] = 3; // 2 + 1
-        fingerings[1] =  6; // 5 + 1
-        fingerings[3] =  5; // 4 + 1
-        fingerings[7] =  4; // 3 + 1
-        fingerings[6] =  7; // 6 + 1
-        fingerings[0] =  8; // 7 + 1
+        fingerings[1] = 6; // 5 + 1
+        fingerings[3] = 5; // 4 + 1
+        fingerings[7] = 4; // 3 + 1
+        fingerings[6] = 7; // 6 + 1
+        fingerings[0] = 8; // 7 + 1
         fingerings[62] = 9; // 8 + 1
 
         recording = false;
         monitor = false;
 
         // progress bar
-        mProgressBar=findViewById(R.id.test_progressBar);
+        mProgressBar = findViewById(R.id.test_progressBar);
         mProgressBar.setProgress(progress);
-        mCountDownTimer=new CountDownTimer(12000,100) {
+        mCountDownTimer = new CountDownTimer(12000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 progress++;
-                mProgressBar.setProgress(progress*100/(12000/100));
+                mProgressBar.setProgress(progress * 100 / (12000 / 100));
             }
 
             @Override
@@ -196,8 +200,9 @@ public class Test extends AppCompatActivity {
         recording = false;
         finish();
     }
+
     public void sendQuery() {
-        if(!monitor && !recording)
+        if (!monitor && !recording)
             return;
         Intent intent = new Intent(this, TestSearch.class);
         intent.putExtra("tuneQueryPitch", queryPitch);
