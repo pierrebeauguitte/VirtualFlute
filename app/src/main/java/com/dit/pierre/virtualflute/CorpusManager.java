@@ -155,7 +155,7 @@ public class CorpusManager extends SQLiteOpenHelper {
         for (Tune t: corpus)
             t.getSubED(query);
         Collections.sort(corpus, cmpTune);
-        return corpus.subList(0, 10);
+        return corpus.subList(0, 15);
     }
 
 }

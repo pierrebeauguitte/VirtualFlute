@@ -2,8 +2,10 @@ package com.dit.pierre.virtualflute;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 
 public class TestButton extends View {
 

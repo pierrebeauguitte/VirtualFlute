@@ -1,6 +1,9 @@
 package com.dit.pierre.virtualflute;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -45,6 +48,7 @@ public class Test extends AppCompatActivity {
                             if (fingerings[sum] > 0)
                                 pc.setText("" + notesStr[fingerings[sum] - 1]);
                             checksum();
+                            tb.setBackground(getDrawable(R.drawable.btn_pressed));
                         }
                         return true;
                     case MotionEvent.ACTION_UP:
@@ -53,6 +57,7 @@ public class Test extends AppCompatActivity {
                         if (fingerings[sum] > 0)
                             pc.setText("" + notesStr[fingerings[sum] - 1]);
                         checksum();
+                        tb.setBackground(getDrawable(R.drawable.btn_normal));
                         return true;
                 }
             }

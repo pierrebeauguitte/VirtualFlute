@@ -40,6 +40,7 @@ public class Play extends AppCompatActivity {
 //                            if (fingerings[sum] > 0)
 //                                tv_header.setText("" + notesStr[fingerings[sum] - 1]);
                             checksum();
+                            tb.setBackground(getDrawable(R.drawable.btn_pressed));
                         }
                         return true;
                     case MotionEvent.ACTION_UP:
@@ -48,6 +49,7 @@ public class Play extends AppCompatActivity {
 //                        if (fingerings[sum] > 0)
 //                            tv_header.setText("" + notesStr[fingerings[sum] - 1]);
                         checksum();
+                        tb.setBackground(getDrawable(R.drawable.btn_normal));
                         return true;
                 }
             }

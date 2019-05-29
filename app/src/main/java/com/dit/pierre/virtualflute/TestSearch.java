@@ -136,8 +136,8 @@ public class TestSearch extends AppCompatActivity {
                 List<Tune> results = cm.searchPattern(query);
                 cumulResults.addAll(results);
                 Collections.sort(cumulResults, CorpusManager.cmpTune);
-                while (cumulResults.size() > 10)
-                    cumulResults.remove(10);
+                while (cumulResults.size() > 15)
+                    cumulResults.remove(15);
                 offset += 500;
                 publishProgress(offset);
             }
