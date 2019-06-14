@@ -117,6 +117,13 @@ public class Play extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        monitor = false;
+        spool.stop(streamId);
+    }
+
     protected void start(){
         if(monitor == true){
             monitor = false;

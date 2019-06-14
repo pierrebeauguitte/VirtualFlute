@@ -198,6 +198,7 @@ public class Test extends AppCompatActivity {
         super.onPause();
         monitor = false;
         recording = false;
+        spool.stop(streamId);
         finish();
     }
 
